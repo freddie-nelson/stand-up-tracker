@@ -5,7 +5,13 @@ import { useState } from "react";
 export default function Index() {
   const [todos, setTodos] = useState<Todo[]>([
     {
+      id: 1,
       text: "hello",
+      category: "Today",
+    },
+    {
+      id: 2,
+      text: "test",
       category: "Today",
     },
   ]);
