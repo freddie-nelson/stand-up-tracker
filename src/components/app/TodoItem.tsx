@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 import { FocusEvent, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { GripVertical } from "lucide-react";
+import { GripVertical, TrashIcon } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -11,9 +11,10 @@ export interface TodoItemProps {
   todo: Todo;
   invisible?: boolean;
   updateTodo: (todo: Todo) => void;
+  deleteTodo: () => void;
 }
 
-export default function TodoItem({ todo, invisible, updateTodo }: TodoItemProps) {
+export default function TodoItem({ todo, invisible, updateTodo, deleteTodo }: TodoItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: todo.id });
 
   const [editing, setEditing] = useState(false);
@@ -36,7 +37,7 @@ export default function TodoItem({ todo, invisible, updateTodo }: TodoItemProps)
     <Card
       ref={setNodeRef}
       variant="light"
-      className="flex items-center p-5 gap-3"
+      className="group flex items-center p-5 gap-3 relative"
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
@@ -47,7 +48,16 @@ export default function TodoItem({ todo, invisible, updateTodo }: TodoItemProps)
         <GripVertical size={24} />
       </Button>
 
+      <Button
+        variant="destructive"
+        onClick={deleteTodo}
+        className="rounded-full w-8 h-8 p-0 absolute -top-3 -right-3 justify-center items-center hidden group-hover:flex"
+      >
+        <TrashIcon size={14} />
+      </Button>
+
       <Input
+        id={`todo-${todo.id}-input`}
         variant={editing ? "default" : "no-border"}
         affects="lg"
         className="text-lg"
