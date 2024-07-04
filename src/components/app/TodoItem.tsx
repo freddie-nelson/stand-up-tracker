@@ -10,11 +10,12 @@ import { CSS } from "@dnd-kit/utilities";
 export interface TodoItemProps {
   todo: Todo;
   invisible?: boolean;
+  hideActions?: boolean;
   updateTodo: (todo: Todo) => void;
   deleteTodo: () => void;
 }
 
-export default function TodoItem({ todo, invisible, updateTodo, deleteTodo }: TodoItemProps) {
+export default function TodoItem({ todo, invisible, hideActions, updateTodo, deleteTodo }: TodoItemProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: todo.id });
 
   const [editing, setEditing] = useState(false);
@@ -48,13 +49,15 @@ export default function TodoItem({ todo, invisible, updateTodo, deleteTodo }: To
         <GripVertical size={24} />
       </Button>
 
-      <Button
-        variant="destructive"
-        onClick={deleteTodo}
-        className="rounded-full w-8 h-8 p-0 absolute -top-3 -right-3 justify-center items-center hidden group-hover:flex"
-      >
-        <TrashIcon size={14} />
-      </Button>
+      {!hideActions && (
+        <Button
+          variant="destructive"
+          onClick={deleteTodo}
+          className="rounded-full w-8 h-8 p-0 absolute -top-3 -right-3 justify-center items-center hidden group-hover:flex"
+        >
+          <TrashIcon size={14} />
+        </Button>
+      )}
 
       <Input
         id={`todo-${todo.id}-input`}

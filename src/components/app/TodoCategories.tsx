@@ -100,6 +100,7 @@ export default function TodoCategories({
               todo={draggingTodo}
               updateTodo={updateTodo}
               deleteTodo={() => deleteTodo(draggingTodo)}
+              hideActions
             />
           )}
         </DragOverlay>
