@@ -4,15 +4,17 @@ import { FocusEvent, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { GripVertical } from "lucide-react";
-import { useDraggable } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export interface TodoItemProps {
   todo: Todo;
+  invisible?: boolean;
   updateTodo: (todo: Todo) => void;
 }
 
-export default function TodoItem({ todo, updateTodo }: TodoItemProps) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({ id: todo.id });
+export default function TodoItem({ todo, invisible, updateTodo }: TodoItemProps) {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: todo.id });
 
   const [editing, setEditing] = useState(false);
 
@@ -36,7 +38,9 @@ export default function TodoItem({ todo, updateTodo }: TodoItemProps) {
       variant="light"
       className="flex items-center p-5 gap-3"
       style={{
-        transform: `translate(${transform?.x ?? 0}px, ${transform?.y ?? 0}px)`,
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: invisible ? 0 : 1,
       }}
     >
       <Button {...attributes} {...listeners} variant="ghost" size="icon" className="cursor-grab">

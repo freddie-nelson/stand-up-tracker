@@ -1,21 +1,25 @@
-import { Todo } from "@/types/Todo";
+import { TodoCategories } from "@/types/Todo";
 
 export const defaultCategories = ["Previous Day", "Today", "Blockers"];
 
-export function categorise(todos: Todo[]) {
-  const categories = new Map<string, Todo[]>();
+export function createCategories(categories = defaultCategories): TodoCategories {
+  const categoriesObj: TodoCategories = {};
 
-  for (const category of defaultCategories) {
-    categories.set(category, []);
-  }
+  categories.forEach((category) => {
+    categoriesObj[category] = [];
+  });
 
-  for (const todo of todos) {
-    if (!categories.has(todo.category)) {
-      categories.set(todo.category, []);
+  return categoriesObj;
+}
+
+export function findById(todos: TodoCategories, id: number) {
+  for (const category in todos) {
+    const todoIndex = todos[category].findIndex((t) => t.id === id);
+
+    if (todoIndex !== -1) {
+      return { category, index: todoIndex, todo: todos[category][todoIndex] };
     }
-
-    categories.get(todo.category)?.push(todo);
   }
 
-  return categories;
+  return null;
 }
