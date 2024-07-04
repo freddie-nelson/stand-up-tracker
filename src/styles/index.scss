@@ -85,3 +85,9 @@ html,
 body {
   @apply w-screen h-screen bg-background;
 }
+
+.scroll-area-viewport > div {
+  min-height: 100%;
+  display: flex !important;
+  flex-direction: column;
+}

@@ -25,7 +25,7 @@ export default function TodoList({
   deleteTodo,
   ...props
 }: TodoListProps) {
-  const { isOver, setNodeRef } = useDroppable({ id: category });
+  const { setNodeRef } = useDroppable({ id: category });
 
   return (
     <Card {...props} className={`flex flex-col ${props.className}`}>
@@ -34,8 +34,8 @@ export default function TodoList({
       </CardHeader>
 
       <SortableContext id={category} items={todos.map((t) => t.id)} strategy={rectSortingStrategy}>
-        <ScrollArea>
-          <CardContent ref={setNodeRef} className="flex-grow flex flex-col gap-4">
+        <ScrollArea className="flex flex-col h-full" viewportClassName="scroll-area-viewport">
+          <CardContent ref={setNodeRef} className="h-full flex flex-col gap-4 flex-grow">
             <CreateTodoButton onClick={createTodo} />
 
             {todos.map((todo) => (

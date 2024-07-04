@@ -51,7 +51,6 @@ export default function TodoCategories({
       return;
     }
 
-    console.log(event.delta);
     moveTodo(draggingTodo, category, index);
   };
 
@@ -66,6 +65,8 @@ export default function TodoCategories({
     if (!found) {
       throw new Error("Could not find todo");
     }
+
+    console.log(event.over);
 
     const category = event.over.data?.current
       ? event.over.data.current?.sortable.containerId
